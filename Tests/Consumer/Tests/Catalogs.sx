@@ -1,0 +1,22 @@
+use GFX.Plugins
+use GFX.Stats
+
+test "consume GFX.Stats through direct and flattened plugin names" {
+    let direct_fps = Stats.FPSPanel(Stats.FPSPanel.Settings()
+        ..anchor = Stats.PanelAnchor.bottom_right
+    )
+    let direct_performance = Stats.PerformancePanel(Stats.PerformancePanel.Settings()
+        ..anchor = Stats.PanelAnchor.top_left
+    )
+    let catalog_fps = Plugins.FPSPanel(Plugins.FPSPanel.Settings()
+        ..anchor = Plugins.FPSPanelAnchor.bottom_right
+    )
+    let catalog_performance = Plugins.PerformancePanel(Plugins.PerformancePanel.Settings()
+        ..anchor = Plugins.PerformancePanelAnchor.top_left
+    )
+
+    assert(direct_fps.id() == "GFX.Stats.Panel")
+    assert(direct_performance.id() == "GFX.Stats.Panel")
+    assert(catalog_fps.id() == "GFX.Stats.Panel")
+    assert(catalog_performance.id() == "GFX.Stats.Panel")
+}

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "GFX": "^0.37.0",
+    "GFX.Stats": "^0.1.0"
+  }
+}

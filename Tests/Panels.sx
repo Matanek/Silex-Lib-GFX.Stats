@@ -1,0 +1,108 @@
+use GFX.Application
+use GFX.Components
+use GFX.ECS
+use GFX.Plugins
+use GFX.Resources
+use STD.Math
+
+struct Probe {
+    var overlays:int
+    var width:int
+    var height:int
+    var draw_calls:int
+    var render_passes:int
+    var application_entity:int
+    var panel_entity:int
+}
+
+func create_application_entity(probe:&Probe, world:&Resources.World) {
+    probe.application_entity = world.spawn(ECS.EntityRecipe()).index
+}
+
+func inspect_panel(
+    probe:&Probe,
+    world:@Resources.World,
+    renderer:@Resources.Renderer,
+    controller:&Application.Controller
+) {
+    for entity in world.entities() {
+        if world.has<Components.Canvas>(entity) {
+            let overlay = world.get<Components.Canvas>(entity)
+            probe.overlays++
+            probe.width = overlay.width()
+            probe.height = overlay.height()
+            probe.panel_entity = entity.index
+        }
+    }
+    let stats = renderer.stats()
+    probe.draw_calls = stats.draw_calls()
+    probe.render_passes = stats.render_passes()
+    controller.stop()
+}
+
+test "display a compact FPS panel through the public plugin umbrella" {
+    var application = Application()
+        ..add_plugin(Plugins.Window(Plugins.Window.Settings()
+            ..title = "FPS counter test"
+            ..width = 320
+            ..height = 180
+            ..hidden = true
+        ))
+        ..add_plugin(Plugins.FPSPanel(Plugins.FPSPanel.Settings()
+            ..anchor = Plugins.FPSPanelAnchor.bottom_right
+            ..margin = Math.Vec2(12.0, 20.0)
+        ))
+        ..add_system(Application.Schedule.startup, create_application_entity)
+        ..add_after_system(Application.Schedule.render, inspect_panel)
+    var resources = application.resources()
+    resources.insert(Probe(
+        overlays:0,
+        width:0,
+        height:0,
+        draw_calls:0,
+        render_passes:0,
+        application_entity:-1,
+        panel_entity:-1
+    ))
+
+    assert(application.run() == 0)
+    assert(resources.get<Probe>().overlays == 1)
+    assert(resources.get<Probe>().width == 116)
+    assert(resources.get<Probe>().height == 34)
+    assert(resources.get<Probe>().draw_calls > 0)
+    assert(resources.get<Probe>().render_passes > 0)
+    assert(resources.get<Probe>().application_entity >= 0)
+    assert(resources.get<Probe>().panel_entity > resources.get<Probe>().application_entity)
+}
+
+test "display GPU performance statistics through the public plugin umbrella" {
+    var application = Application()
+        ..add_plugin(Plugins.Window(Plugins.Window.Settings()
+            ..title = "Performance panel test"
+            ..width = 320
+            ..height = 240
+            ..hidden = true
+        ))
+        ..add_plugin(Plugins.PerformancePanel(Plugins.PerformancePanel.Settings()
+            ..anchor = Plugins.PerformancePanelAnchor.top_left
+            ..margin = Math.Vec2(8.0)
+        ))
+        ..add_after_system(Application.Schedule.render, inspect_panel)
+    var resources = application.resources()
+    resources.insert(Probe(
+        overlays:0,
+        width:0,
+        height:0,
+        draw_calls:0,
+        render_passes:0,
+        application_entity:-1,
+        panel_entity:-1
+    ))
+
+    assert(application.run() == 0)
+    assert(resources.get<Probe>().overlays == 1)
+    assert(resources.get<Probe>().width == 252)
+    assert(resources.get<Probe>().height == 252)
+    assert(resources.get<Probe>().draw_calls > 0)
+    assert(resources.get<Probe>().render_passes > 0)
+}
