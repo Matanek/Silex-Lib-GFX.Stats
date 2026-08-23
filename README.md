@@ -1,7 +1,7 @@
 # GFX.Stats
 
 `GFX.Stats` displays live development statistics inside a GFX application.
-It provides a compact FPS panel and a detailed rendering-performance panel
+It provides a compact render-FPS panel and a detailed rendering-performance panel
 without introducing a general-purpose UI system.
 
 ```text
@@ -35,6 +35,9 @@ application.add_plugin(Plugins.PerformancePanel())
 capability. Adding one explicit view replaces the other during plugin
 resolution. The rendering statistics themselves remain owned by
 `GFX.Rendering`; this package only samples, aggregates, and presents them.
+The detailed panel says `RENDER FPS` deliberately: an asynchronous simulation
+can publish new visual states less often while the renderer repeats its latest
+state.
 
 `Tests/Consumer` verifies both the direct namespace and the flattened catalog
 from an anonymous application workspace.

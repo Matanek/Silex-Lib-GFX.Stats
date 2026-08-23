@@ -175,8 +175,8 @@ func decimal_tenths(value:int) str {
 
 func performance_canvas(fps:int, frame_tenths:int, stats:Rendering.Stats) Canvas {
     var labels:str[] = []
-    labels.append("FPS")
-    labels.append("FRAME")
+    labels.append("RENDER FPS")
+    labels.append("RENDER FRAME")
     labels.append("COLOR DRAWS")
     labels.append("SHADOW DRAWS")
     labels.append("COLOR TRIS")
