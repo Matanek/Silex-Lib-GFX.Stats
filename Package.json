@@ -1,6 +1,6 @@
 {
   "name": "GFX.Stats",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Live FPS and rendering-performance panels for GFX applications.",
   "authors": ["Matanek"],
   "requires": { "silex": ">=0.39.0" },
