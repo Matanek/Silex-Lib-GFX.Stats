@@ -41,3 +41,8 @@ state.
 
 `Tests/Consumer` verifies both the direct namespace and the flattened catalog
 from an anonymous application workspace.
+
+The live visual presentations belong to the central examples catalogue:
+
+- [FPS statistics panel](https://github.com/Matanek/Silex-Examples/blob/main/Sources/FPSStatsPanel.sx)
+- [Rendering performance panel](https://github.com/Matanek/Silex-Examples/blob/main/Sources/PerformanceStatsPanel.sx)
