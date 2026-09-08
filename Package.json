@@ -1,6 +1,6 @@
 {
   "name": "GFX.Stats",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": {
     "en": "Live FPS and rendering-performance panels for GFX applications.",
     "fr": "Panneaux en direct des FPS et des performances de rendu pour les applications GFX."
