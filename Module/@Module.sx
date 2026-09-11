@@ -113,7 +113,7 @@ func install_panel(application:&Application, settings:PanelSettings) {
     application.add_resource(State(settings))
     // Keep the high-layer overlay after application-owned startup scene content.
     application.add_after_system(Schedule.startup, create_counter)
-    application.add_system(Schedule.update, update_counter)
+    application.add_system(Schedule.update, update_counter, process_mode:GFX.Application.ProcessMode.always)
     application.add_system(Schedule.shutdown, stop_counter)
 }
 
